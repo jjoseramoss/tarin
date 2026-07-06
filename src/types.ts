@@ -30,3 +30,29 @@ export interface CheckIn {
   note?: string;
   completedAt: string; // ISO timestamp
 }
+
+export interface WeightEntry {
+  id: string;
+  userId: string;
+  /** YYYY-MM-DD, one entry per day (logging again the same day overwrites it) */
+  date: string;
+  weight: number;
+  createdAt: string; // ISO timestamp
+}
+
+export type MealSection = "breakfast" | "lunch" | "dinner" | "snacks";
+
+export interface MealItem {
+  id: string;
+  text: string;
+}
+
+export interface DietDay {
+  userId: string;
+  /** YYYY-MM-DD */
+  date: string;
+  breakfast: MealItem[];
+  lunch: MealItem[];
+  dinner: MealItem[];
+  snacks: MealItem[];
+}

@@ -1,6 +1,6 @@
-# Check In — Prototype
+# TARIN — Prototype
 
-A local, no-login prototype of the check-in app: dashboard (add/complete/edit/delete targets with a GitHub-style activity grid) and an Instagram-style friend feed. State is seeded with mock data and persisted to `localStorage` so it survives refreshes.
+A local prototype of TARIN: dashboard (add/complete/edit/delete targets with a GitHub-style activity grid), an Instagram-style friend feed, weight and diet tracking, friends, and a simple local login/signup gate. State is seeded with mock data and persisted to `localStorage` so it survives refreshes.
 
 ## Run it
 

@@ -40,6 +40,15 @@ export function weekKey(d: Date = new Date()): string {
   return `${date.getFullYear()}-W${String(weekNo).padStart(2, "0")}`;
 }
 
+/** "Today" / "Yesterday" / "Monday, Jul 5" — used for feed day-group headers. */
+export function formatDayLabel(dateKey: string): string {
+  if (dateKey === todayKey()) return "Today";
+  if (dateKey === daysAgoKey(1)) return "Yesterday";
+  const [yr, mo, day] = dateKey.split("-").map(Number);
+  const d = new Date(yr, mo - 1, day);
+  return d.toLocaleDateString(undefined, { weekday: "long", month: "short", day: "numeric" });
+}
+
 export function timeAgo(iso: string): string {
   const diffMs = Date.now() - new Date(iso).getTime();
   const mins = Math.floor(diffMs / 60000);

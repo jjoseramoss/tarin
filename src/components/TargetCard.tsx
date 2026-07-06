@@ -119,7 +119,7 @@ export function TargetCard({
           </div>
         </div>
 
-        <ActivityGrid target={target} checkIns={checkIns} weeks={12} />
+        <ActivityGrid target={target} checkIns={checkIns} />
       </CardContent>
 
       <Dialog open={noteOpen} onOpenChange={setNoteOpen}>
