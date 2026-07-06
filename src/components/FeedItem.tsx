@@ -9,16 +9,24 @@ interface FeedItemProps {
   target: Target;
   user: UserProfile;
   streak: number;
+  onAvatarClick?: () => void;
 }
 
-export function FeedItem({ checkIn, target, user, streak }: FeedItemProps) {
+export function FeedItem({ checkIn, target, user, streak, onAvatarClick }: FeedItemProps) {
   return (
     <Card>
       <CardContent className="flex gap-3 p-4">
-        <Avatar className="h-10 w-10 border border-border">
-          <AvatarImage src={user.avatarUrl} alt={user.displayName} />
-          <AvatarFallback>{user.displayName[0]}</AvatarFallback>
-        </Avatar>
+        <button
+          type="button"
+          onClick={onAvatarClick}
+          aria-label={`View ${user.displayName}'s profile`}
+          className="shrink-0 rounded-full outline-none focus-visible:ring-2 focus-visible:ring-ring"
+        >
+          <Avatar className="h-10 w-10 border border-border">
+            <AvatarImage src={user.avatarUrl} alt={user.displayName} />
+            <AvatarFallback>{user.displayName[0]}</AvatarFallback>
+          </Avatar>
+        </button>
 
         <div className="flex flex-1 flex-col gap-1.5">
           <div className="flex flex-wrap items-baseline gap-1 text-sm">

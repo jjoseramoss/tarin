@@ -1,4 +1,4 @@
-# Check In app — handoff summary
+# TARIN — handoff summary
 
 Status as of 2026-07-03. Written so you can pick this up on a different machine.
 

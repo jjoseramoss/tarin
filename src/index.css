@@ -32,6 +32,39 @@
     --ring: 32 45% 55%;
 
     --radius: 0.75rem;
+
+    --dot-color: 34 18% 82%;
+  }
+
+  .dark {
+    --background: 20 16% 8%;
+    --foreground: 40 20% 94%;
+
+    --card: 20 14% 12%;
+    --card-foreground: 40 20% 94%;
+
+    --primary: 40 30% 96%;
+    --primary-foreground: 20 14% 12%;
+
+    --secondary: 20 12% 17%;
+    --secondary-foreground: 40 20% 94%;
+
+    --muted: 20 12% 17%;
+    --muted-foreground: 30 8% 64%;
+
+    --accent: 32 50% 58%;
+    --accent-foreground: 20 14% 10%;
+
+    --destructive: 4 65% 55%;
+    --destructive-foreground: 40 30% 98%;
+
+    --success: 142 35% 48%;
+
+    --border: 20 12% 22%;
+    --input: 20 12% 22%;
+    --ring: 32 50% 58%;
+
+    --dot-color: 20 12% 22%;
   }
 }
 
@@ -45,15 +78,20 @@
   body {
     @apply bg-background text-foreground font-sans antialiased;
     background-image:
-      radial-gradient(circle at 1px 1px, hsl(34 18% 82% / 0.5) 1px, transparent 0);
+      radial-gradient(circle at 1px 1px, hsl(var(--dot-color) / 0.5) 1px, transparent 0);
     background-size: 22px 22px;
+    transition: background-color 0.2s ease, color 0.2s ease;
   }
   #root {
-    max-width: 480px;
-    margin-inline: auto;
     min-height: 100vh;
     position: relative;
     background: hsl(var(--background));
+  }
+  @media (max-width: 767px) {
+    #root {
+      max-width: 480px;
+      margin-inline: auto;
+    }
   }
 }
 
