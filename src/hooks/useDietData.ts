@@ -67,7 +67,7 @@ export function useDietData(date: string = todayKey()) {
   const draftsRef = useRef<Record<string, EditPatch>>({});
   // In-flight "create the real row" promise per slot key, so rapid keystrokes
   // only ever trigger one insert.
-  const creatingRef = useRef<Record<string, Promise<ItemRow | null>>>({});
+  const creatingRef = useRef<Partial<Record<string, Promise<ItemRow | null>>>>({});
   // Placeholders removed by the user while their insert was still in flight.
   const removedRef = useRef<Set<string>>(new Set());
 
@@ -168,18 +168,20 @@ export function useDietData(date: string = todayKey()) {
       // latest draft text once it resolves, so there's nothing more to do.
       if (creatingRef.current[key]) return;
 
-      creatingRef.current[key] = supabase
-        .from("diet_items")
-        .insert({
-          user_id: userId,
-          date,
-          section,
-          text: merged.text ?? "",
-          protein: merged.protein ?? null,
-        })
-        .select()
-        .single()
-        .then(({ data, error }) => (error ? null : (data as ItemRow)));
+      creatingRef.current[key] = (async () => {
+        const { data, error } = await supabase
+          .from("diet_items")
+          .insert({
+            user_id: userId,
+            date,
+            section,
+            text: merged.text ?? "",
+            protein: merged.protein ?? null,
+          })
+          .select()
+          .single();
+        return error ? null : (data as ItemRow);
+      })();
 
       const created = await creatingRef.current[key];
       delete creatingRef.current[key];
