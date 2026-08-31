@@ -5,6 +5,7 @@ import { Profile } from "@/pages/Profile";
 import { WeightTracker } from "@/pages/WeightTracker";
 import { DietTracker } from "@/pages/DietTracker";
 import { Friends } from "@/pages/Friends";
+import { Challenges } from "@/pages/Challenges";
 import { Auth } from "@/pages/Auth";
 import { BottomNav } from "@/components/BottomNav";
 import { Sidebar } from "@/components/Sidebar";
@@ -40,6 +41,7 @@ export default function App() {
           {route === "weight" && <WeightTracker />}
           {route === "diet" && <DietTracker />}
           {route === "friends" && <Friends />}
+          {route === "challenges" && <Challenges />}
           {route === "profile" && <Profile />}
         </main>
       </div>
