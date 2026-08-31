@@ -1,7 +1,7 @@
 import type { LucideIcon } from "lucide-react";
-import { LayoutGrid, Rss, Scale, UtensilsCrossed, Users, UserRound } from "lucide-react";
+import { LayoutGrid, Mountain, Rss, Scale, UtensilsCrossed, Users, UserRound } from "lucide-react";
 
-export type Route = "dashboard" | "feed" | "weight" | "diet" | "friends" | "profile";
+export type Route = "dashboard" | "feed" | "weight" | "diet" | "friends" | "challenges" | "profile";
 
 export interface RouteMeta {
   key: Route;
@@ -24,6 +24,7 @@ export const MORE_ROUTES: RouteMeta[] = [
   { key: "weight", label: "Weight", icon: Scale },
   { key: "diet", label: "Diet", icon: UtensilsCrossed },
   { key: "friends", label: "Friends", icon: Users },
+  { key: "challenges", label: "Challenges", icon: Mountain },
 ];
 
 export const PROFILE_ROUTE: RouteMeta = { key: "profile", label: "Profile", icon: UserRound };
@@ -34,5 +35,6 @@ export const ROUTE_TITLES: Record<Route, string> = {
   weight: "Weight tracker.",
   diet: "Diet tracker.",
   friends: "Friends.",
+  challenges: "Challenges.",
   profile: "Profile.",
 };

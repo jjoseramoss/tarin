@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { Check, Flame, MoreVertical, Pencil, Trash2 } from "lucide-react";
-import type { CheckIn, Target } from "@/types";
+import { Check, MoreVertical, Pencil, Trash2 } from "lucide-react";
+import type { Target } from "@/types";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -20,12 +20,10 @@ import {
   DropdownMenuItem,
 } from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
-import { ActivityGrid } from "@/components/ActivityGrid";
 import { cn } from "@/lib/utils";
 
 interface TargetCardProps {
   target: Target;
-  checkIns: CheckIn[];
   completed: boolean;
   streak: number;
   onToggle: (note?: string) => void;
@@ -35,7 +33,6 @@ interface TargetCardProps {
 
 export function TargetCard({
   target,
-  checkIns,
   completed,
   streak,
   onToggle,
@@ -61,6 +58,8 @@ export function TargetCard({
     setNoteOpen(false);
   }
 
+  const streakTone = streak >= 3 ? "hot" : streak >= 1 ? "warm" : "none";
+
   return (
     <Card className="overflow-hidden">
       <CardContent className="flex flex-col gap-3 p-4">
@@ -78,12 +77,18 @@ export function TargetCard({
                 <Badge variant="outline" className="capitalize">
                   {target.frequency}
                 </Badge>
-                {streak > 0 && (
-                  <span className="flex items-center gap-0.5 text-xs font-medium text-accent">
-                    <Flame className="h-3.5 w-3.5" />
-                    {streak}
-                  </span>
-                )}
+                <span
+                  className={cn(
+                    "flex items-center gap-1 text-xs font-semibold",
+                    streakTone === "none" && "text-muted-foreground",
+                    streakTone === "warm" && "text-muted-foreground",
+                    streakTone === "hot" &&
+                      "text-accent drop-shadow-[0_0_10px_rgba(248,113,113,0.45)]"
+                  )}
+                >
+                  {streak}
+                  {streakTone !== "none" && <span aria-hidden>🔥</span>}
+                </span>
               </div>
             </div>
           </div>
@@ -118,8 +123,6 @@ export function TargetCard({
             </DropdownMenu>
           </div>
         </div>
-
-        <ActivityGrid target={target} checkIns={checkIns} />
       </CardContent>
 
       <Dialog open={noteOpen} onOpenChange={setNoteOpen}>

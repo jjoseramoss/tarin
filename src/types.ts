@@ -57,3 +57,44 @@ export interface DietDay {
   dinner: MealItem[];
   snacks: MealItem[];
 }
+
+export interface Challenge {
+  id: string;
+  creatorId: string;
+  title: string;
+  headerImageUrl?: string;
+  startDate: string; // YYYY-MM-DD
+  endDate: string; // YYYY-MM-DD
+  createdAt: string; // ISO timestamp
+}
+
+export interface ChallengeTarget {
+  id: string;
+  challengeId: string;
+  title: string;
+  order: number;
+}
+
+export interface ChallengeMembership {
+  challengeId: string;
+  userId: string;
+  joinedAt: string; // ISO timestamp
+}
+
+export interface ChallengeCheckIn {
+  id: string;
+  challengeId: string;
+  challengeTargetId: string;
+  userId: string;
+  date: string; // YYYY-MM-DD
+  note?: string;
+  createdAt: string; // ISO timestamp
+}
+
+export interface ChallengeMessage {
+  id: string;
+  challengeId: string;
+  userId: string;
+  body: string;
+  createdAt: string; // ISO timestamp
+}

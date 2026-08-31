@@ -1,14 +1,19 @@
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { useCheckinData } from "@/hooks/useCheckinData";
 import { useMyProfile } from "@/hooks/useMyProfile";
+import { useChallenges } from "@/hooks/useChallenges";
+import { useAuth } from "@/hooks/useAuth";
 import { TargetCard } from "@/components/TargetCard";
 import { AddTargetDialog } from "@/components/AddTargetDialog";
+import { ChallengeTargetsSection } from "@/components/ChallengeTargetsSection";
+import { ChallengeChatDialog } from "@/components/ChallengeChatDialog";
+import { ChallengeLeaderboardDialog } from "@/components/ChallengeLeaderboardDialog";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 export function Dashboard() {
+  const { userId } = useAuth();
   const {
     myTargets,
-    checkInsForTarget,
     isCompletedNow,
     streakFor,
     toggleComplete,
@@ -18,6 +23,10 @@ export function Dashboard() {
   } = useCheckinData();
 
   const { profile: me } = useMyProfile();
+
+  const challenges = useChallenges();
+  const [chatOpenFor, setChatOpenFor] = useState<string | null>(null);
+  const [leaderboardOpenFor, setLeaderboardOpenFor] = useState<string | null>(null);
 
   const completedToday = useMemo(
     () => myTargets.filter((t) => isCompletedNow(t.id)).length,
@@ -72,6 +81,15 @@ export function Dashboard() {
 
       <AddTargetDialog onCreate={addTarget} />
 
+      <ChallengeTargetsSection
+        items={challenges.joinedTargetsForDashboard}
+        onToggle={challenges.toggleToday}
+        onOpenChat={(id) => setChatOpenFor(id)}
+        onOpenLeaderboard={(id) => setLeaderboardOpenFor(id)}
+      />
+
+      <h2 className="font-display text-2xl font-black tracking-tight">Your Targets</h2>
+
       <div className="grid grid-cols-1 gap-3 md:grid-cols-2 md:items-start md:gap-4 lg:grid-cols-3">
         {myTargets.length === 0 && (
           <p className="py-10 text-center text-sm text-muted-foreground md:col-span-full">
@@ -82,7 +100,6 @@ export function Dashboard() {
           <TargetCard
             key={t.id}
             target={t}
-            checkIns={checkInsForTarget(t.id)}
             completed={isCompletedNow(t.id)}
             streak={streakFor(t.id)}
             onToggle={(note) => toggleComplete(t.id, note)}
@@ -91,6 +108,22 @@ export function Dashboard() {
           />
         ))}
       </div>
+
+      <ChallengeChatDialog
+        challengeId={chatOpenFor}
+        open={!!chatOpenFor}
+        onOpenChange={(open) => setChatOpenFor(open ? chatOpenFor : null)}
+        loadChat={challenges.loadChat}
+        sendChat={challenges.sendChatMessage}
+        meId={userId}
+      />
+
+      <ChallengeLeaderboardDialog
+        challengeId={leaderboardOpenFor}
+        open={!!leaderboardOpenFor}
+        onOpenChange={(open) => setLeaderboardOpenFor(open ? leaderboardOpenFor : null)}
+        loadLeaderboard={challenges.loadLeaderboard}
+      />
     </div>
   );
 }
